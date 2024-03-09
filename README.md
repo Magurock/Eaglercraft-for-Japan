@@ -1,4 +1,4 @@
-##Eaglercraft Japanese Plus##
+# Eaglercraft Japanese Plus
 
 Eaglercraft 日本語版の個人的に気になるところをいじくってみました。
 
@@ -8,13 +8,26 @@ Eaglercraft 日本語版の個人的に気になるところをいじくって�
 
 何かこうしてほしいとかあれば言ってください
 
+# 変更したもの
+
+tpコマンドの修正
+
+tpコマンドの翻訳を修正
+
+サーバーのタイムアウトの翻訳を修正
+
+その他誤字修正
+
+
+自分用のテクスチャパックでも作ろうかな
+
 
 
 この下は参考にしたものです。
 
 [U5KUN/Eaglercraft-Japanese](https://github.com/U5KUN/Eaglercraft-Japanese)Eaglercraftに出会うきっかけになりました
 
-[hinata-sub/EAGLERCRAFT-JAPANESE-](https://github.com/hinata-sub/EAGLERCRAFT-JAPANESE-)Langファイル、摘出むずくてお借りしました
+[hinata-sub/EAGLERCRAFT-JAPANESE-](https://github.com/hinata-sub/EAGLERCRAFT-JAPANESE-)Langファイル、摘出できなくてお借りしました
 
 [ekoerp1/eaglercraft1.5.2](https://github.com/ekoerp1/eaglercraft1.5.2)元のテクスチャファイルなどをお借りしました
 
