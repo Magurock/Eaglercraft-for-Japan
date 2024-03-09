@@ -1,4 +1,4 @@
-#Eaglercraft Japanese Plus
+##Eaglercraft Japanese Plus##
 
 Eaglercraft 日本語版の個人的に気になるところをいじくってみました。
 
