@@ -4,7 +4,7 @@ Eaglercraft 日本語版の個人的に気になるところをいじくって�
 
 翻訳の改善くらいですが、最新テクスチャバージョンも作成しました。
 
-[通常版](https://magurock.github.io/Eaglercraft-Japanese-Plus/Normal/)   [テクスチャ最新版](https://magurock.github.io/Eaglercraft-Japanese-Plus/NewTexture/)
+[通常版](https://magurock.github.io/Eaglercraft-Japanese-Plus/Normal/)   [テクスチャ最新版](https://magurock.github.io/Eaglercraft-Japanese-Plus/NewTexture/)   自分用のテクスチャパックでも作ろうかな
 
 何かこうしてほしいとかあれば言ってください
 
@@ -18,12 +18,7 @@ tpコマンドの翻訳を修正
 
 その他誤字修正
 
-
-自分用のテクスチャパックでも作ろうかな
-
-
-
-この下は参考にしたものです。
+# 参考にしたもの
 
 [U5KUN/Eaglercraft-Japanese](https://github.com/U5KUN/Eaglercraft-Japanese)Eaglercraftに出会うきっかけになりました
 
