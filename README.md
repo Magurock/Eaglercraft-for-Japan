@@ -1,4 +1,4 @@
-# Eaglercraft Japanese Plus
+# Eaglercraft for Japan
 
 Eaglercraft 日本語版の個人的に気になるところをいじくってみました。
 
