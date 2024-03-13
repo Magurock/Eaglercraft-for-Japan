@@ -4,6 +4,8 @@ Eaglercraft 日本語版の個人的に気になるところをいじくって�
 
 翻訳の改善くらいですが、最新テクスチャバージョンも作成しました。
 
+テクスチャが違うだけなので、(最新1.5.2を除いて)ワールドなどのデータを共有できます
+
 [通常版をプレイ](https://magurock.github.io/Eaglercraft-for-Japan/Normal/)
 
 [テクスチャ最新版をプレイ](https://magurock.github.io/Eaglercraft-for-Japan/NewTexture/)
