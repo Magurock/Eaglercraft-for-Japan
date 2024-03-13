@@ -10,7 +10,7 @@ Eaglercraft 日本語版の個人的に気になるところをいじくって�
 
 [テクスチャ最新版をプレイ](https://magurock.github.io/Eaglercraft-for-Japan/NewTexture/)
 
-Google偽装版をプレイ(まだ準備中)
+[Google偽装版をプレイ](https://magurock.github.io/Eaglercraft-for-Japan/ForSchool/)
 
 [最新1.5.2(日本語化してない)をプレイ](https://magurock.github.io/Eaglercraft-for-Japan/New152/)
 
