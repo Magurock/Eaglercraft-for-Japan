@@ -1,12 +1,16 @@
-# Eaglercraft for Japan
+﻿# Eaglercraft for Japan
 
-Eaglercraft 日本語版の個人的に気になるところをいじくってみました。
+Eaglercraft Japaneseの個人的に気になるところをいじくってみました。
 
-翻訳の改善くらいですが、最新テクスチャバージョンも作成しました。
+翻訳の改善、最新版へのアップデート、Google偽装版など、様々なバージョンを作ってみました。
 
-テクスチャが違うだけなので、(最新1.5.2を除いて)ワールドなどのデータを共有できます
+注意:最新1.5.2と古いバージョンとはワールドなどのデータを共有できません。
 
-久しぶりに翻訳など更新しました！
+# 早速プレイ!
+
+[最新1.5.2(日本語化済み!)をプレイ](https://magurock.github.io/Eaglercraft-for-Japan/New152/)
+
+この下は古いバージョンです
 
 [通常版をプレイ](https://magurock.github.io/Eaglercraft-for-Japan/Normal/)
 
@@ -14,17 +18,35 @@ Eaglercraft 日本語版の個人的に気になるところをいじくって�
 
 [Google偽装版をプレイ](https://magurock.github.io/Eaglercraft-for-Japan/ForSchool/)
 
-[最新1.5.2(日本語化してない)をプレイ](https://magurock.github.io/Eaglercraft-for-Japan/New152/)
-
-低スペック用にテクスチャ解像度が低いのも予定してます(4pxと8px)
-
-鉱石とかを目立たせたものも作る予定
+最新1.5.2にもGoogle偽装版作るかも
 
 自分用のテクスチャパックでも作ろうかな
 
 フィードバックは大歓迎です
 
-# 変更したもの
+# お知らせ
+
+#### 最新1.5.2日本語化!!
+
+翻訳の改善と最新版(22w43aからSP1.01)にアップデートしました!
+
+1.5.2対応の1.14テクスチャパックも[置いておきます](https://www.mediafire.com/file/l30m7bucmlozgw5/1.14+Textures+MC1.5.2.zip/file)(僕のじゃないです)
+
+この下の手順でワールドを移動できます:
+
+ワールドをダウンロードする: ワールドを選択→バックアップ→EPKファイルでエクスポート
+
+ワールドをアップロードする: ワールドを選択→ワールド新規作成→EPKファイルからインポート
+
+#### 翻訳の改善
+
+苔、クオーツなどのアイテムの名前を今の翻訳に合わせて変更
+
+Eaglercraftのみのメニュー翻訳の改善
+
+翻訳の統一など
+
+#### 初リリースで変更したもの
 
 tpコマンドの修正
 
@@ -32,15 +54,13 @@ tpコマンドの翻訳を修正
 
 サーバーのタイムアウトの翻訳などを修正
 
-翻訳の統一など
-
 その他誤字など修正
 
 あとスプラッシュテキスト追加
 
 # 参考にしたもの
 
-[U5KUN/Eaglercraft-Japanese](https://github.com/U5KUN/Eaglercraft-Japanese)Eaglercraftに出会うきっかけになりました
+[U5KUN/Eaglercraft-Japanese](https://github.com/U5KUN/Eaglercraft-Japanese)Eaglercraftに出会うきっかけになり、たくさん参考にさせてもらいました
 
 [hinata-sub/EAGLERCRAFT-JAPANESE-](https://github.com/hinata-sub/EAGLERCRAFT-JAPANESE-)Langファイル、摘出できなくてお借りしました
 
