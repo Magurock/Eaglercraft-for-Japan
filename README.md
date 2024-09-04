@@ -73,3 +73,5 @@ tpコマンドの翻訳を修正
 [ekoerp1/eaglercraft1.5.2](https://github.com/ekoerp1/eaglercraft1.5.2)元のテクスチャファイルなどをお借りしました
 
 [Nixinova/Original-Panorama](https://github.com/Nixinova/Original-Panorama/tree/new?tab=readme-ov-file)新しいテクスチャのパノラマをお借りしました
+
+[Reddit-Dominik000221](https://www.reddit.com/r/Minecraft/comments/rrcdtr/i_removed_black_background_from_the_new_launcher/)マイクラのアイコンをお借りしました
