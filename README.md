@@ -8,11 +8,13 @@ Eaglercraft Japaneseの個人的に気になるところをいじくってみま
 
 # 早速プレイ!
 
-[最新1.5.2(日本語化済み!)をプレイ](https://magurock.github.io/Eaglercraft-for-Japan/New152/)
+[最新1.5.2(SP3!)をプレイ](https://magurock.github.io/Eaglercraft-for-Japan/SP3-152/)
 
 [開発中の最新版をプレイ](https://magurock.github.io/Eaglercraft-for-Japan/V3-152/)
 
 この下は古いバージョンで、サポートしていません
+
+[バージョンSP2をプレイ](https://magurock.github.io/Eaglercraft-for-Japan/New152/)
 
 [通常版をプレイ](https://magurock.github.io/Eaglercraft-for-Japan/Normal/)
 
@@ -28,9 +30,13 @@ Eaglercraft Japaneseの個人的に気になるところをいじくってみま
 
 # お知らせ
 
-#### いつの間にSP2がリリースされてるやん
+#### いつの間にSP3がリリースされてるやん
 
-そっちも適用したのを先に作ってから新年更新します
+というわけで作ってきました
+
+まあ多分大丈夫
+
+あと開発版も後で頑張って適用しときます
 
 #### 2025年なので、そろそろ更新します。
 
