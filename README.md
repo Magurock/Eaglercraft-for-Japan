@@ -1,4 +1,4 @@
-﻿# Eaglercraft for Japan
+﻿# Eaglercraft for Japan (旧名Eaglercraft Japanese Plus)
 
 Eaglercraft Japaneseの個人的に気になるところをいじくってみました。
 
@@ -9,6 +9,8 @@ Eaglercraft Japaneseの個人的に気になるところをいじくってみま
 # 早速プレイ!
 
 [最新1.5.2(日本語化済み!)をプレイ](https://magurock.github.io/Eaglercraft-for-Japan/New152/)
+
+[開発中の最新版をプレイ](https://magurock.github.io/Eaglercraft-for-Japan/V3-152/)
 
 この下は古いバージョンで、サポートしていません
 
@@ -25,6 +27,16 @@ Eaglercraft Japaneseの個人的に気になるところをいじくってみま
 フィードバックは大歓迎です
 
 # お知らせ
+
+#### 2025年なので、そろそろ更新します。
+
+久しぶりに機能を更新しようと思います。
+
+サウンドの高音質化(村人を除く)は完了しています
+
+さらに改善した翻訳はまだ時間がかかりそうです。
+
+上の「開発中の最新版をプレイ」から遊べます。
 
 #### 更なる翻訳の改善・アイコン追加・名称変更
 
