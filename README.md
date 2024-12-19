@@ -8,13 +8,15 @@ Eaglercraft Japaneseの個人的に気になるところをいじくってみま
 
 # 早速プレイ!
 
-[最新1.5.2(SP3!)をプレイ](https://magurock.github.io/Eaglercraft-for-Japan/SP3-152/)
+[最新安定版をプレイ](https://magurock.github.io/Eaglercraft-for-Japan/New152/)
 
-[開発中の最新版をプレイ](https://magurock.github.io/Eaglercraft-for-Japan/V3-152/)
+この下は開発中で、安定した動作を保証できません。
 
-この下は古いバージョンで、サポートしていません
+[SP2適用1.5.2をプレイ](https://magurock.github.io/Eaglercraft-for-Japan/SP2-152/)
 
-[バージョンSP2をプレイ](https://magurock.github.io/Eaglercraft-for-Japan/New152/)
+[開発中の最新版(まだSP1)をプレイ](https://magurock.github.io/Eaglercraft-for-Japan/V3-152/)
+
+この下は古いバージョンです。念の為残しています。
 
 [通常版をプレイ](https://magurock.github.io/Eaglercraft-for-Japan/Normal/)
 
@@ -30,11 +32,11 @@ Eaglercraft Japaneseの個人的に気になるところをいじくってみま
 
 # お知らせ
 
-#### いつの間にSP3がリリースされてるやん
+#### いつの間にSP2がリリースされてるやん
 
 というわけで作ってきました
 
-まあ多分大丈夫
+大丈夫じゃなかったんで後で修正します
 
 あと開発版も後で頑張って適用しときます
 
@@ -42,9 +44,11 @@ Eaglercraft Japaneseの個人的に気になるところをいじくってみま
 
 久しぶりに機能を更新しようと思います。
 
-サウンドの高音質化(村人を除く)は完了しています
+サウンドの高音質化(一部以外)は完了しています
 
 さらに改善した翻訳はまだ時間がかかりそうです。
+
+まあスプリクトを直接編集したりで頑張ってます。
 
 上の「開発中の最新版をプレイ」から遊べます。
 
