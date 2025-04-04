@@ -22,7 +22,7 @@
 
 この下は古いバージョンです。互換性のため残しています。
 
-[1.5.2(22w43a)](https://magurock.github.io/Eaglercraft-for-Japan/152-2243/)
+[1.5.2(22w43a)](https://magurock.github.io/Eaglercraft-for-Japan/Play/152-2243/)
 
 フィードバックは大歓迎です
 
