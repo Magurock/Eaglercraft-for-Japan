@@ -16,7 +16,7 @@
 
 この下は開発中で、安定した動作を保証できません。
 
-[1.5.2開発版(SP1)](https://magurock.github.io/Eaglercraft-for-Japan/Play/Test-152/)
+[1.5.2開発版(SP2)](https://magurock.github.io/Eaglercraft-for-Japan/Play/Test-152/)
 
 1.12.2開発版(準備中)
 
@@ -59,6 +59,10 @@ Eaglercraft独自(多分未使用)の項目でまだ未翻訳の部分があり�
 基本的な日本語化を行いました。
 
 # 1.5.2のお知らせ
+
+#### 新しく開発しようかな
+
+戻ってきました。
 
 #### (最後じゃないと思う)アップデート
 
