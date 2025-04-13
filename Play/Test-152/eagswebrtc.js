@@ -19,10 +19,6 @@ window.initializeVoiceClient = (() => {
 	const READYSTATE_ABORTED = -1;
 	const READYSTATE_DEVICE_INITIALIZED = 1;
 
-	const PEERSTATE_FAILED = 0;
-	const PEERSTATE_SUCCESS = 1;
-	const PEERSTATE_LOADING = 2;
-
 	class EaglercraftVoicePeer {
 
 		constructor(client, peerId, peerConnection, offer) {
@@ -31,52 +27,43 @@ window.initializeVoiceClient = (() => {
 			this.peerConnection = peerConnection;
 			this.stream = null;
 			
-			const self = this;
 			this.peerConnection.addEventListener("icecandidate", (evt) => {
 				if(evt.candidate) {
-					self.client.iceCandidateHandler(self.peerId, JSON.stringify({ sdpMLineIndex: evt.candidate.sdpMLineIndex, candidate: evt.candidate.candidate }));
+					this.client.iceCandidateHandler(this.peerId, JSON.stringify({ sdpMLineIndex: evt.candidate.sdpMLineIndex, candidate: evt.candidate.candidate }));
 				}
 			});
 			
 			this.peerConnection.addEventListener("track", (evt) => {
-				self.rawStream = evt.streams[0];
+				this.rawStream = evt.streams[0];
 				const aud = new Audio();
 				aud.autoplay = true;
 				aud.muted = true;
 				aud.onended = function() {
 					aud.remove();
 				};
-				aud.srcObject = self.rawStream;
-				self.client.peerTrackHandler(self.peerId, self.rawStream);
+				aud.srcObject = this.rawStream;
+				this.client.peerTrackHandler(this.peerId, this.rawStream);
 			});
 			
 			this.peerConnection.addStream(this.client.localMediaStream.stream);
 			if (offer) {
 				this.peerConnection.createOffer((desc) => {
 					const selfDesc = desc;
-					self.peerConnection.setLocalDescription(selfDesc, () => {
-						self.client.descriptionHandler(self.peerId, JSON.stringify(selfDesc));
-						if (self.client.peerStateInitial != PEERSTATE_SUCCESS) self.client.peerStateInitial = PEERSTATE_SUCCESS;
+					this.peerConnection.setLocalDescription(selfDesc, () => {
+						this.client.descriptionHandler(this.peerId, JSON.stringify(selfDesc));
 					}, (err) => {
-						console.error("Failed to set local description for \"" + self.peerId + "\"! " + err);
-						if (self.client.peerStateInitial == PEERSTATE_LOADING) self.client.peerStateInitial = PEERSTATE_FAILED;
-						self.client.signalDisconnect(self.peerId);
+						console.error("Failed to set local description for \"" + this.peerId + "\"! " + err);
+						this.client.signalDisconnect(this.peerId);
 					});
 				}, (err) => {
-					console.error("Failed to set create offer for \"" + self.peerId + "\"! " + err);
-					if (self.client.peerStateInitial == PEERSTATE_LOADING) self.client.peerStateInitial = PEERSTATE_FAILED;
-					self.client.signalDisconnect(self.peerId);
+					console.error("Failed to set create offer for \"" + this.peerId + "\"! " + err);
+					this.client.signalDisconnect(this.peerId);
 				});
 			}
 
 			this.peerConnection.addEventListener("connectionstatechange", (evt) => {
-				if(self.peerConnection.connectionState === 'disconnected') {
-					self.client.signalDisconnect(self.peerId);
-				} else if (self.peerConnection.connectionState === 'connected') {
-					if (self.client.peerState != PEERSTATE_SUCCESS) self.client.peerState = PEERSTATE_SUCCESS;
-				} else if (self.peerConnection.connectionState === 'failed') {
-					if (self.client.peerState == PEERSTATE_LOADING) self.client.peerState = PEERSTATE_FAILED;
-					self.client.signalDisconnect(self.peerId);
+				if(this.peerConnection.connectionState === 'disconnected' || this.peerConnection.connectionState === 'failed') {
+					this.client.signalDisconnect(this.peerId);
 				}
 			});
 			
@@ -91,46 +78,38 @@ window.initializeVoiceClient = (() => {
 		}
 
 		setRemoteDescription(descJSON) {
-			const self = this;
 			try {
 				const remoteDesc = JSON.parse(descJSON);
 				this.peerConnection.setRemoteDescription(remoteDesc, () => {
-					if(remoteDesc.type == 'offer') {
-						self.peerConnection.createAnswer((desc) => {
+					if(remoteDesc.type === 'offer') {
+						this.peerConnection.createAnswer((desc) => {
 							const selfDesc = desc;
-							self.peerConnection.setLocalDescription(selfDesc, () => {
-								self.client.descriptionHandler(self.peerId, JSON.stringify(selfDesc));
-								if (self.client.peerStateDesc != PEERSTATE_SUCCESS) self.client.peerStateDesc = PEERSTATE_SUCCESS;
+							this.peerConnection.setLocalDescription(selfDesc, () => {
+								this.client.descriptionHandler(this.peerId, JSON.stringify(selfDesc));
 							}, (err) => {
-								console.error("Failed to set local description for \"" + self.peerId + "\"! " + err);
-								if (self.client.peerStateDesc == PEERSTATE_LOADING) self.client.peerStateDesc = PEERSTATE_FAILED;
-								self.client.signalDisconnect(self.peerId);
+								console.error("Failed to set local description for \"" + this.peerId + "\"! " + err);
+								this.client.signalDisconnect(this.peerId);
 							});
 						}, (err) => {
-							console.error("Failed to create answer for \"" + self.peerId + "\"! " + err);
-							if (self.client.peerStateDesc == PEERSTATE_LOADING) self.client.peerStateDesc = PEERSTATE_FAILED;
-							self.client.signalDisconnect(self.peerId);
+							console.error("Failed to create answer for \"" + this.peerId + "\"! " + err);
+							this.client.signalDisconnect(this.peerId);
 						});
 					}
 				}, (err) => {
-					console.error("Failed to set remote description for \"" + self.peerId + "\"! " + err);
-					if (self.client.peerStateDesc == PEERSTATE_LOADING) self.client.peerStateDesc = PEERSTATE_FAILED;
-					self.client.signalDisconnect(self.peerId);
+					console.error("Failed to set remote description for \"" + this.peerId + "\"! " + err);
+					this.client.signalDisconnect(this.peerId);
 				});
 			} catch (err) {
-				console.error("Failed to parse remote description for \"" + self.peerId + "\"! " + err);
-				if (self.client.peerStateDesc == PEERSTATE_LOADING) self.client.peerStateDesc = PEERSTATE_FAILED;
-				self.client.signalDisconnect(self.peerId);
+				console.error("Failed to parse remote description for \"" + this.peerId + "\"! " + err);
+				this.client.signalDisconnect(this.peerId);
 			}
 		}
 		
 		addICECandidate(candidate) {
 			try {
 				this.peerConnection.addIceCandidate(new RTCIceCandidate(JSON.parse(candidate)));
-				if (this.client.peerStateIce != PEERSTATE_SUCCESS) this.client.peerStateIce = PEERSTATE_SUCCESS;
 			} catch (err) {
 				console.error("Failed to parse ice candidate for \"" + this.peerId + "\"! " + err);
-				if (this.client.peerStateIce == PEERSTATE_LOADING) this.client.peerStateIce = PEERSTATE_FAILED;
 				this.client.signalDisconnect(this.peerId);
 			}
 		}
@@ -144,11 +123,6 @@ window.initializeVoiceClient = (() => {
 			this.hasInit = false;
 			this.peerList = new Map();
 			this.readyState = READYSTATE_NONE;
-			this.peerState = PEERSTATE_LOADING;
-			this.peerStateConnect = PEERSTATE_LOADING;
-			this.peerStateInitial = PEERSTATE_LOADING;
-			this.peerStateDesc = PEERSTATE_LOADING;
-			this.peerStateIce = PEERSTATE_LOADING;
 			this.iceCandidateHandler = null;
 			this.descriptionHandler = null;
 			this.peerTrackHandler = null;
@@ -165,9 +139,9 @@ window.initializeVoiceClient = (() => {
 			this.ICEServers.length = 0;
 			for(var i = 0; i < urls.length; ++i) {
 				var etr = urls[i].split(";");
-				if(etr.length == 1) {
+				if(etr.length === 1) {
 					this.ICEServers.push({ urls: etr[0] });
-				}else if(etr.length == 3) {
+				}else if(etr.length === 3) {
 					this.ICEServers.push({ urls: etr[0], username: etr[1], credential: etr[2] });
 				}
 			}
@@ -195,21 +169,20 @@ window.initializeVoiceClient = (() => {
 		
 		initializeDevices() {
 			if(!this.hasInit) {
-				const self = this;
 				navigator.mediaDevices.getUserMedia({ audio: true, video: false }).then((stream) => {
-					self.microphoneVolumeAudioContext = new AudioContext();
-					self.localRawMediaStream = stream;
-					self.localRawMediaStream.getAudioTracks()[0].enabled = false;
-					self.localMediaStream = self.microphoneVolumeAudioContext.createMediaStreamDestination();
-					self.localMediaStreamGain = self.microphoneVolumeAudioContext.createGain();
-					var localStreamIn = self.microphoneVolumeAudioContext.createMediaStreamSource(stream);
-					localStreamIn.connect(self.localMediaStreamGain);
-					self.localMediaStreamGain.connect(self.localMediaStream);
-					self.localMediaStreamGain.gain.value = 1.0;
-					self.readyState = READYSTATE_DEVICE_INITIALIZED;
+					this.microphoneVolumeAudioContext = new AudioContext();
+					this.localRawMediaStream = stream;
+					this.localRawMediaStream.getAudioTracks()[0].enabled = false;
+					this.localMediaStream = this.microphoneVolumeAudioContext.createMediaStreamDestination();
+					this.localMediaStreamGain = this.microphoneVolumeAudioContext.createGain();
+					var localStreamIn = this.microphoneVolumeAudioContext.createMediaStreamSource(stream);
+					localStreamIn.connect(this.localMediaStreamGain);
+					this.localMediaStreamGain.connect(this.localMediaStream);
+					this.localMediaStreamGain.gain.value = 1.0;
+					this.readyState = READYSTATE_DEVICE_INITIALIZED;
 					this.hasInit = true;
 				}).catch((err) => {
-					self.readyState = READYSTATE_ABORTED;
+					this.readyState = READYSTATE_ABORTED;
 				});
 			}else {
 				this.readyState = READYSTATE_DEVICE_INITIALIZED;
@@ -224,44 +197,17 @@ window.initializeVoiceClient = (() => {
 				this.localMediaStreamGain.gain.value = val * 2.0;
 			}
 		}
-		
-		resetPeerStates() {
-			this.peerState = this.peerStateConnect = this.peerStateInitial = this.peerStateDesc = this.peerStateIce = PEERSTATE_LOADING;
-		}
-
-		getPeerState() {
-			return this.peerState;
-		}
-
-		getPeerStateConnect() {
-			return this.peerStateConnect;
-		}
-
-		getPeerStateInitial() {
-			return this.peerStateInitial;
-		}
-
-		getPeerStateDesc() {
-			return this.peerStateDesc;
-		}
-
-		getPeerStateIce() {
-			return this.peerStateIce;
-		}
 
 		getReadyState() {
 			return this.readyState;
 		}
 
 		signalConnect(peerId, offer) {
-			if (!this.hasInit) this.initializeDevices();
 			try {
-					const peerConnection = new RTCPeerConnection({ iceServers: this.ICEServers, optional: [ { DtlsSrtpKeyAgreement: true } ] });
-					const peerInstance = new EaglercraftVoicePeer(this, peerId, peerConnection, offer);
-					this.peerList.set(peerId, peerInstance);
-					if (this.peerStateConnect != PEERSTATE_SUCCESS) this.peerStateConnect = PEERSTATE_SUCCESS;
+				const peerConnection = new RTCPeerConnection({ iceServers: this.ICEServers, optional: [ { DtlsSrtpKeyAgreement: true } ] });
+				const peerInstance = new EaglercraftVoicePeer(this, peerId, peerConnection, offer);
+				this.peerList.set(peerId, peerInstance);
 			} catch (e) {
-				if (this.peerStateConnect == PEERSTATE_LOADING) this.peerStateConnect = PEERSTATE_FAILED;
 			}
 		}
 		
@@ -341,11 +287,11 @@ window.initializeLANClient = (() => {
 		
 		initializeClient() {
 			try {
-				if(this.dataChannel != null) {
+				if(this.dataChannel !== null) {
 					this.dataChannel.close();
 					this.dataChannel = null;
 				}
-				if(this.peerConnection != null) {
+				if(this.peerConnection !== null) {
 					this.peerConnection.close();
 				}
 				this.peerConnection = new RTCPeerConnection({ iceServers: this.ICEServers, optional: [ { DtlsSrtpKeyAgreement: true } ] });
@@ -359,9 +305,9 @@ window.initializeLANClient = (() => {
 			this.ICEServers.length = 0;
 			for(var i = 0; i < urls.length; ++i) {
 				var etr = urls[i].split(";");
-				if(etr.length == 1) {
+				if(etr.length === 1) {
 					this.ICEServers.push({ urls: etr[0] });
-				}else if(etr.length == 3) {
+				}else if(etr.length === 3) {
 					this.ICEServers.push({ urls: etr[0], username: etr[1], credential: etr[2] });
 				}
 			}
@@ -392,7 +338,7 @@ window.initializeLANClient = (() => {
 		}
 		
 		sendPacketToServer(buffer) {
-			if(this.dataChannel != null && this.dataChannel.readyState == "open") {
+			if(this.dataChannel !== null && this.dataChannel.readyState === "open") {
 				this.dataChannel.send(buffer);
 			}else {
 				this.signalRemoteDisconnect(false);
@@ -400,18 +346,27 @@ window.initializeLANClient = (() => {
 		}
 		
 		signalRemoteConnect() {
-			const self = this;
 
 			const iceCandidates = [];
 
 			this.peerConnection.addEventListener("icecandidate", (evt) => {
 				if(evt.candidate) {
-					if(iceCandidates.length == 0) setTimeout(() => {
-                    	if(self.peerConnection != null && self.peerConnection.connectionState != "disconnected") {
-                    		self.iceCandidateHandler(JSON.stringify(iceCandidates));
-                    		iceCandidates.length = 0;
-                    	}
-                    }, 3000);
+					if(iceCandidates.length === 0) {
+						let candidateState = [ 0, 0 ];
+						let runnable;
+						setTimeout(runnable = () => {
+							if(this.peerConnection !== null && this.peerConnection.connectionState !== "disconnected") {
+								const trial = ++candidateState[1];
+								if(candidateState[0] !== iceCandidates.length && trial < 3) {
+									candidateState[0] = iceCandidates.length;
+									setTimeout(runnable, 2000);
+									return;
+								}
+								this.iceCandidateHandler(JSON.stringify(iceCandidates));
+								iceCandidates.length = 0;
+							}
+						}, 2000);
+					}
                     iceCandidates.push({ sdpMLineIndex: evt.candidate.sdpMLineIndex, candidate: evt.candidate.candidate });
 				}
 			});
@@ -421,38 +376,38 @@ window.initializeLANClient = (() => {
 
 			this.dataChannel.addEventListener("open", async (evt) => {
 				while(iceCandidates.length > 0) {
-					await new Promise(resolve => setTimeout(resolve, 0));
+					await new Promise(resolve => setTimeout(resolve, 10));
 				}
-				self.remoteDataChannelHandler(self.dataChannel);
+				this.remoteDataChannelHandler(this.dataChannel);
 			});
 
 			this.dataChannel.addEventListener("message", (evt) => {
-				self.remotePacketHandler(evt.data);
+				this.remotePacketHandler(evt.data);
 			}, false);
 
 			this.peerConnection.createOffer((desc) => {
 				const selfDesc = desc;
-				self.peerConnection.setLocalDescription(selfDesc, () => {
-					self.descriptionHandler(JSON.stringify(selfDesc));
+				this.peerConnection.setLocalDescription(selfDesc, () => {
+					this.descriptionHandler(JSON.stringify(selfDesc));
 				}, (err) => {
 					console.error("Failed to set local description! " + err);
-					self.readyState = READYSTATE_FAILED;
-					self.signalRemoteDisconnect(false);
+					this.readyState = READYSTATE_FAILED;
+					this.signalRemoteDisconnect(false);
 				});
 			}, (err) => {
 				console.error("Failed to set create offer! " + err);
-				self.readyState = READYSTATE_FAILED;
-				self.signalRemoteDisconnect(false);
+				this.readyState = READYSTATE_FAILED;
+				this.signalRemoteDisconnect(false);
 			});
 
 			this.peerConnection.addEventListener("connectionstatechange", (evt) => {
-				if(self.peerConnection.connectionState === 'disconnected') {
-					self.signalRemoteDisconnect(false);
-				} else if (self.peerConnection.connectionState === 'connected') {
-					self.readyState = READYSTATE_CONNECTED;
-				} else if (self.peerConnection.connectionState === 'failed') {
-					self.readyState = READYSTATE_FAILED;
-					self.signalRemoteDisconnect(false);
+				if(this.peerConnection.connectionState === 'disconnected') {
+					this.signalRemoteDisconnect(false);
+				} else if (this.peerConnection.connectionState === 'connected') {
+					this.readyState = READYSTATE_CONNECTED;
+				} else if (this.peerConnection.connectionState === 'failed') {
+					this.readyState = READYSTATE_FAILED;
+					this.signalRemoteDisconnect(false);
 				}
 			});
 		}
@@ -481,11 +436,11 @@ window.initializeLANClient = (() => {
 		}
 
 		signalRemoteDisconnect(quiet) {
-			if(this.dataChannel != null) {
+			if(this.dataChannel !== null) {
 				this.dataChannel.close();
 				this.dataChannel = null;
 			}
-			if(this.peerConnection != null) {
+			if(this.peerConnection !== null) {
 				this.peerConnection.close();
 			}
 			if(!quiet) this.remoteDisconnectHandler();
@@ -510,10 +465,6 @@ window.startLANClient = () => {
 
 window.initializeLANServer = (() => {
 
-	const PEERSTATE_FAILED = 0;
-	const PEERSTATE_SUCCESS = 1;
-	const PEERSTATE_LOADING = 2;
-
 	class EaglercraftLANPeer {
 
 		constructor(client, peerId, peerConnection) {
@@ -522,48 +473,53 @@ window.initializeLANServer = (() => {
 			this.peerConnection = peerConnection;
 			this.dataChannel = null;
 
-			const self = this;
-
 			const iceCandidates = [];
+			let hasICE = false;
 
 			this.peerConnection.addEventListener("icecandidate", (evt) => {
 				if(evt.candidate) {
-					if(iceCandidates.length == 0) setTimeout(() => {
-                    	if(self.peerConnection != null && self.peerConnection.connectionState != "disconnected") {
-                    		self.client.iceCandidateHandler(self.peerId, JSON.stringify(iceCandidates));
-                    		iceCandidates.length = 0;
-                    	}
-                    }, 3000);
+					if(iceCandidates.length === 0) {
+						let candidateState = [ 0, 0 ];
+						let runnable;
+						setTimeout(runnable = () => {
+							if(this.peerConnection !== null && this.peerConnection.connectionState !== "disconnected") {
+								const trial = ++candidateState[1];
+								if(candidateState[0] !== iceCandidates.length && trial < 3) {
+									candidateState[0] = iceCandidates.length;
+									setTimeout(runnable, 2000);
+									return;
+								}
+								this.client.iceCandidateHandler(this.peerId, JSON.stringify(iceCandidates));
+								iceCandidates.length = 0;
+								hasICE = true;
+							}
+						}, 2000);
+					}
                     iceCandidates.push({ sdpMLineIndex: evt.candidate.sdpMLineIndex, candidate: evt.candidate.candidate });
 				}
 			});
 
 			this.peerConnection.addEventListener("datachannel", async (evt) => {
-				while(iceCandidates.length > 0) {
-					await new Promise(resolve => setTimeout(resolve, 0));
+				while(!hasICE) {
+					await new Promise(resolve => setTimeout(resolve, 10));
 				}
-				self.dataChannel = evt.channel;
-				self.client.remoteClientDataChannelHandler(self.peerId, self.dataChannel);
-				self.dataChannel.addEventListener("message", (evt) => {
-					self.client.remoteClientPacketHandler(self.peerId, evt.data);
+				this.dataChannel = evt.channel;
+				this.client.remoteClientDataChannelHandler(this.peerId, this.dataChannel);
+				this.dataChannel.addEventListener("message", (evt) => {
+					this.client.remoteClientPacketHandler(this.peerId, evt.data);
 				}, false);
 			}, false);
 
 			this.peerConnection.addEventListener("connectionstatechange", (evt) => {
-				if(self.peerConnection.connectionState === 'disconnected') {
-					self.client.signalRemoteDisconnect(self.peerId);
-				} else if (self.peerConnection.connectionState === 'connected') {
-					if (self.client.peerState != PEERSTATE_SUCCESS) self.client.peerState = PEERSTATE_SUCCESS;
-				} else if (self.peerConnection.connectionState === 'failed') {
-					if (self.client.peerState == PEERSTATE_LOADING) self.client.peerState = PEERSTATE_FAILED;
-					self.client.signalRemoteDisconnect(self.peerId);
+				if(this.peerConnection.connectionState === 'disconnected' || this.peerConnection.connectionState === 'failed') {
+					this.client.signalRemoteDisconnect(this.peerId);
 				}
 			});
 
 		}
 
 		disconnect() {
-			if(this.dataChannel != null) {
+			if(this.dataChannel !== null) {
 				this.dataChannel.close();
 				this.dataChannel = null;
 			}
@@ -571,36 +527,30 @@ window.initializeLANServer = (() => {
 		}
 
 		setRemoteDescription(descJSON) {
-			const self = this;
 			try {
 				const remoteDesc = JSON.parse(descJSON);
 				this.peerConnection.setRemoteDescription(remoteDesc, () => {
-					if(remoteDesc.type == 'offer') {
-						self.peerConnection.createAnswer((desc) => {
+					if(remoteDesc.type === 'offer') {
+						this.peerConnection.createAnswer((desc) => {
 							const selfDesc = desc;
-							self.peerConnection.setLocalDescription(selfDesc, () => {
-								self.client.descriptionHandler(self.peerId, JSON.stringify(selfDesc));
-								if (self.client.peerStateDesc != PEERSTATE_SUCCESS) self.client.peerStateDesc = PEERSTATE_SUCCESS;
+							this.peerConnection.setLocalDescription(selfDesc, () => {
+								this.client.descriptionHandler(this.peerId, JSON.stringify(selfDesc));
 							}, (err) => {
-								console.error("Failed to set local description for \"" + self.peerId + "\"! " + err);
-								if (self.client.peerStateDesc == PEERSTATE_LOADING) self.client.peerStateDesc = PEERSTATE_FAILED;
-								self.client.signalRemoteDisconnect(self.peerId);
+								console.error("Failed to set local description for \"" + this.peerId + "\"! " + err);
+								this.client.signalRemoteDisconnect(this.peerId);
 							});
 						}, (err) => {
-							console.error("Failed to create answer for \"" + self.peerId + "\"! " + err);
-							if (self.client.peerStateDesc == PEERSTATE_LOADING) self.client.peerStateDesc = PEERSTATE_FAILED;
-							self.client.signalRemoteDisconnect(self.peerId);
+							console.error("Failed to create answer for \"" + this.peerId + "\"! " + err);
+							this.client.signalRemoteDisconnect(this.peerId);
 						});
 					}
 				}, (err) => {
-					console.error("Failed to set remote description for \"" + self.peerId + "\"! " + err);
-					if (self.client.peerStateDesc == PEERSTATE_LOADING) self.client.peerStateDesc = PEERSTATE_FAILED;
-					self.client.signalRemoteDisconnect(self.peerId);
+					console.error("Failed to set remote description for \"" + this.peerId + "\"! " + err);
+					this.client.signalRemoteDisconnect(this.peerId);
 				});
 			} catch (err) {
-				console.error("Failed to parse remote description for \"" + self.peerId + "\"! " + err);
-				if (self.client.peerStateDesc == PEERSTATE_LOADING) self.client.peerStateDesc = PEERSTATE_FAILED;
-				self.client.signalRemoteDisconnect(self.peerId);
+				console.error("Failed to parse remote description for \"" + this.peerId + "\"! " + err);
+				this.client.signalRemoteDisconnect(this.peerId);
 			}
 		}
 
@@ -610,10 +560,8 @@ window.initializeLANServer = (() => {
 				for (let candidate of candidateList) {
 					this.peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
 				}
-				if (this.client.peerStateIce != PEERSTATE_SUCCESS) this.client.peerStateIce = PEERSTATE_SUCCESS;
 			} catch (err) {
 				console.error("Failed to parse ice candidate for \"" + this.peerId + "\"! " + err);
-				if (this.client.peerStateIce == PEERSTATE_LOADING) this.client.peerStateIce = PEERSTATE_FAILED;
 				this.client.signalRemoteDisconnect(this.peerId);
 			}
 		}
@@ -626,11 +574,6 @@ window.initializeLANServer = (() => {
 			this.ICEServers = [];
 			this.hasInit = false;
 			this.peerList = new Map();
-			this.peerState = PEERSTATE_LOADING;
-			this.peerStateConnect = PEERSTATE_LOADING;
-			this.peerStateInitial = PEERSTATE_LOADING;
-			this.peerStateDesc = PEERSTATE_LOADING;
-			this.peerStateIce = PEERSTATE_LOADING;
 			this.iceCandidateHandler = null;
 			this.descriptionHandler = null;
 			this.remoteClientDataChannelHandler = null;
@@ -650,9 +593,9 @@ window.initializeLANServer = (() => {
 			this.ICEServers.length = 0;
 			for(var i = 0; i < urls.length; ++i) {
 				var etr = urls[i].split(";");
-				if(etr.length == 1) {
+				if(etr.length === 1) {
 					this.ICEServers.push({ urls: etr[0] });
-				}else if(etr.length == 3) {
+				}else if(etr.length === 3) {
 					this.ICEServers.push({ urls: etr[0], username: etr[1], credential: etr[2] });
 				}
 			}
@@ -681,7 +624,7 @@ window.initializeLANServer = (() => {
 		sendPacketToRemoteClient(peerId, buffer) {
 			var thePeer = this.peerList.get(peerId);
 			if((typeof thePeer !== "undefined") && thePeer !== null) {
-				if(thePeer.dataChannel != null && thePeer.dataChannel.readyState == "open") {
+				if(thePeer.dataChannel != null && thePeer.dataChannel.readyState === "open") {
 					thePeer.dataChannel.send(buffer);
 				}else {
 					this.signalRemoteDisconnect(peerId);
@@ -689,38 +632,12 @@ window.initializeLANServer = (() => {
 			}
 		}
 
-		resetPeerStates() {
-			this.peerState = this.peerStateConnect = this.peerStateInitial = this.peerStateDesc = this.peerStateIce = PEERSTATE_LOADING;
-		}
-
-		getPeerState() {
-			return this.peerState;
-		}
-
-		getPeerStateConnect() {
-			return this.peerStateConnect;
-		}
-
-		getPeerStateInitial() {
-			return this.peerStateInitial;
-		}
-
-		getPeerStateDesc() {
-			return this.peerStateDesc;
-		}
-
-		getPeerStateIce() {
-			return this.peerStateIce;
-		}
-
 		signalRemoteConnect(peerId) {
 			try {
 				const peerConnection = new RTCPeerConnection({ iceServers: this.ICEServers, optional: [ { DtlsSrtpKeyAgreement: true } ] });
 				const peerInstance = new EaglercraftLANPeer(this, peerId, peerConnection);
 				this.peerList.set(peerId, peerInstance);
-				if (this.peerStateConnect != PEERSTATE_SUCCESS) this.peerStateConnect = PEERSTATE_SUCCESS;
 			} catch (e) {
-				if (this.peerStateConnect == PEERSTATE_LOADING) this.peerStateConnect = PEERSTATE_FAILED;
 			}
 		}
 
@@ -739,7 +656,7 @@ window.initializeLANServer = (() => {
 		}
 
 		signalRemoteDisconnect(peerId) {
-			if(peerId.length == 0) {
+			if(peerId.length === 0) {
 				for(const thePeer of this.peerList.values()) {
                 	if((typeof thePeer !== "undefined") && thePeer !== null) {
 						this.peerList.delete(peerId);
