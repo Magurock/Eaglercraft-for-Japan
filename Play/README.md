@@ -16,9 +16,9 @@
 
 この下は開発中で、安定した動作を保証できません。
 
-[1.5.2開発版(SP2)](https://magurock.github.io/Eaglercraft-for-Japan/Play/Test-152/)
+[1.5.2開発版(SP2改造)](https://magurock.github.io/Eaglercraft-for-Japan/Play/Test-152/)
 
-1.12.2開発版(準備中)
+[1.12.2開発版(U2モバイル化)](https://magurock.github.io/Eaglercraft-for-Japan/Play/Test-1122/)
 
 この下は古いバージョンです。互換性のため残しています。
 
