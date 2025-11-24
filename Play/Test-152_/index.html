@@ -1,32 +1,40 @@
-
 <!DOCTYPE html>
 <html>
 <head>
-<title>eagler</title>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="description" content="Eaglercraft is real Minecraft 1.5.2 that you can play in any regular web browser. That includes school chromebooks, it works on all chromebooks. It supports both singleplayer and multiplayer with no extensions." />
-<meta name="keywords" content="minecraft, eaglercraft, singleplayer, applet, replit, browser, html5, javascript, chromebook, lax1dude, games, eagler" />
-<meta name="author" content="lax1dude" />
-<meta property="og:title" content="Eaglercraft" />
-<meta property="og:locale" content="en-US" />
-<meta property="og:type" content="website" />
-<!-- Change this: <meta property="og:image" content="https://media.discordapp.net/attachments/378764518081429506/932053915061587978/thumbnail2.png" /> -->
-<meta property="og:description" content="Eaglercraft is real Minecraft 1.5.2 that you can play in any regular web browser. That includes school chromebooks, it works on all chromebooks. It supports both singleplayer and multiplayer with no extensions." />
-<!-- Change this: <meta property="og:url" content="https://g.eags.us/eaglercraft/" /> -->
-<script type="8fa9a4a08c3591fac4fc9ebf-text/javascript" src="classes.js"></script>
-<script type="8fa9a4a08c3591fac4fc9ebf-text/javascript" src="eagswebrtc.js"></script>
-<script src="/js/ga4.js" type="8fa9a4a08c3591fac4fc9ebf-text/javascript"></script>
-<script type="8fa9a4a08c3591fac4fc9ebf-text/javascript">
+<script type="text/javascript" src="eagswebrtc.js"></script>
+<!--script type="text/javascript" src="music.js"></script-->
+<script type="text/javascript" src="classes.js"></script>
+<script type="text/javascript">
 if(document.location.href.startsWith("file:")) {
-alert("You cannot 'open' this file in your browser, the code doesn't work. Upload this folder to your HTTP(s) server and access it via the internet to launch the stable-download game. This is not a bug, please read the documentation");
+alert("これはオンライン用のファイルです。これをプレイするには、この下のフォルダ内にある[README]ファイルを開いてください。プレイできるリンクがあるはずです。");
 }else {
-window.addEventListener("load", function(){
+window.addEventListener("load", async function(){
+/*
+let wardUrl = "";
+try {
+  wardUrl = (await (await fetch("https://pipedapi.tokhmi.xyz/streams/5VuDwU4bW8Q")).json()).audioStreams[0].url;
+} catch (e) {}
+*/
 const relayId = Math.floor(Math.random() * 3);
 window.eaglercraftOpts = {
-container: "game_frame", assetsURI: "assets.epk", serverWorkerURI: "worker_bootstrap.js", worldsFolder: "MAIN",
+container: "game_frame", assetsURI: "assets.epk", serverWorkerURI: "worker_bootstrap.js", worldsFolder: "TEST",
+assetOverrides: {
+    // "title/no-pano-blur.flag": "",
+	"records/wait.mp3": "wait.mp3",
+	"records/mellohi.mp3": "https://stream.nightride.fm/chillsynth.m4a",
+	"records/far.mp3": "https://stream.nightride.fm/nightride.m4a",
+	"records/cat.mp3": "http://usa9.fastcast4u.com/proxy/jamz?mp=/1",
+	"records/ward.mp3": "http://fr4.1mix.co.uk:8000/192h",
+	"records/strad.mp3": "http://listen.011fm.com:8028/stream15",
+	"records/blocks.mp3": "https://www.ophanim.net:8444/s/9780",
+	"records/13.mp3": "https://s2.radio.co/s2b2b68744/listen"
+	// "sounds/gta.mp3": "https://invidious.zapashcanon.fr/latest_version?itag=251&id=YRlIl6K6S88"
+	// "records/ward.mp3": wardUrl
+	// "sounds/gta.mp3": ""
+},
 servers: [
-	{ serverName: "placeholder", serverAddress: "address here", hideAddress: false }
+	{ serverName: "ローカル テスト サーバー", serverAddress: "localhost:25565", hideAddress: false }
 ],
 relays: [
 	{ addr: "wss://relay.deev.is/", name: "lax1dude relay #1", primary: relayId == 0 },
@@ -35,7 +43,10 @@ relays: [
 ],
 mainMenu: { splashes: [
 "Darviglet!", "eaglerenophile!", "You Eagler!", "Yeeeeeee!", "yeee",
-"EEEEEEEEE!", "You Darvig!", "You Vigg!", ":>", "|>", "You Yumpster!"
+"EEEEEEEEE!", "You Darvig!", "You Vigg!", ":>", "|>", "You Yumpster!",
+"Adjustment by Magurock!","Translated by U5KUN!","Thanks for hinata-sub!",
+"Eaglercraft for Japan!","やあ！","日本語でできるっていいよ","('-')//","(>_<)",
+"これをよく見る人っているの？","Magurockが調整!","U5KUNが翻訳!","ありがとうhinata-sub！","Updated to sp1!","SP1にアップデート済み!"
 ], eaglerLogo: false }};
 (function(){
 var q = window.location.search;
@@ -50,6 +61,5 @@ main();
 </script>
 </head>
 <body style="margin:0px;width:100vw;height:100vh;" id="game_frame">
-<script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="8fa9a4a08c3591fac4fc9ebf-|49" defer></script><script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"version":"2024.11.0","token":"819a6dd01c5f466797f833c74dd6d160","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 </body>
 </html>
