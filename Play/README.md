@@ -6,9 +6,11 @@
 
 　　   修正までお待ちください。来たらできるだけすぐ新しいのを作るので。
 
-注意3: あと公式に日本語で出来るようになったらここは無くなるかも。
+注意3: 最新1.5.2でカスタムスキン変更が動作しないので、SP1を利用してください。
 
-注意4: 1.12.2に関するお知らせを書きました
+注意4: あと公式に日本語で出来るようになったらここは無くなるかも。
+
+注意5: 1.12.2に関するお知らせを書きました
 
 # 早速プレイ!
 
@@ -18,13 +20,17 @@
 
 この下は開発中で、安定した動作を保証できません。
 
-[1.5.2開発版(SP2改造)](https://magurock.github.io/Eaglercraft-for-Japan/Play/Test-152/)
+[1.5.2開発版A](https://magurock.github.io/Eaglercraft-for-Japan/Play/Test-152/)
 
-[1.12.2開発版(U2モバイル+レコード)](https://magurock.github.io/Eaglercraft-for-Japan/Play/Test-1122/)
+[1.5.2開発版B](https://magurock.github.io/Eaglercraft-for-Japan/Play/Test-152_/)
 
-この下は古いバージョンです。互換性のため残しています。
+[1.12.2開発版A](https://magurock.github.io/Eaglercraft-for-Japan/Play/Test-1122/)
+
+この下は古いバージョンです。互換性やバグ等の理由により残しています。
 
 [1.5.2(22w43a)](https://magurock.github.io/Eaglercraft-for-Japan/Play/152-2243/)
+
+[1.5.2(SP1)](https://magurock.github.io/Eaglercraft-for-Japan/Play/152-SP1/)
 
 フィードバックは大歓迎です
 
@@ -37,6 +43,8 @@
 少し使いずらいかもしれませんがすいません。
 
 # 1.12.2のお知らせ
+
+#### 1.12の計画は保留になっています
 
 #### 1.12.2日本語化のリソースパック化とそれによる廃止
 
@@ -73,6 +81,14 @@ Eaglercraft独自(多分未使用)の項目でまだ未翻訳の部分があり�
 基本的な日本語化を行いました。
 
 # 1.5.2のお知らせ
+
+#### なんかSP2.01がある件
+
+何とかする
+
+#### 最新版でスキン変更不可な問題について
+
+SP1を追加したので、そちらからスキン変更をお願いします。
 
 #### 新しく開発しようかな
 
